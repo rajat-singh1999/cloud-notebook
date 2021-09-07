@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema
+const {Schema} = mongoose
 
 const NotesSchema = new Schema({
+    user:{ // this is equivalent to a primary key in SQL
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user' // reference to the model I want to connect(as in hypothetically connect)
+    },
     title:{
         type: String,
         required: true
@@ -20,4 +24,4 @@ const NotesSchema = new Schema({
     }
 });
 
-module.export = mongoose.model('notes', NotesSchema);
+module.exports = mongoose.model('notes', NotesSchema);
