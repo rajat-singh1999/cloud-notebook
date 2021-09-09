@@ -5,7 +5,7 @@ import noteContext from "../Context/notes/NotesContext"
 const AddNote = () => {
     const context = useContext(noteContext);
     const {addNote} = context;
-    const [note, setnote] = useState({title: "", description: "", tag: ""})
+    const [note, setnote] = useState({title: "", description: "", tag: "General"})
     
     const handleClick = (e)=>{
         e.preventDefault(); // so that the page does not reloads
@@ -24,17 +24,16 @@ const AddNote = () => {
             <div className="mb-3">
                 <label htmlFor="title" className="form-label">Tile</label>
                 <input type="text" name="title" className="form-control" id="title" aria-describedby="emailHelp" onChange={onChange} />
-                <div id="emailHelp" className="form-text"></div>
             </div>
             <div className="mb-3">
                 <label htmlFor="description" className="form-label">Description</label>
-                <input type="text" className="form-control" id="description" name="description" onChange={onChange}/>
+                <textarea type="text" className="form-control" id="description my-box" name="description" rows="10" onChange={onChange}></textarea>
             </div>
-            <div className="mb-3 form-check">
-                <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-                <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
+            <div className="mb-3">
+                <label className="form-check-label" htmlFor="tag">Tag (default:General)</label>
+                <input type="text" className="form-control" id="tag" name="tag" onChange={onChange}/>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={handleClick}>Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={handleClick}>Add Note</button>
             </form>
             </div>
         </div>
