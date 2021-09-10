@@ -5,8 +5,10 @@ import AddNote from './AddNote'
 
 
 const Notes = () => {
-    const ref = useRef(null);
-    const refclose = useRef(null);
+    const editRef = useRef(null);
+    const editRefclose = useRef(null);
+    const viewRef = useRef(null);
+    const viewRefclose = useRef(null);
 
     const context = useContext(noteContext);
 
@@ -19,18 +21,23 @@ const Notes = () => {
     }, [])
 
     const updateNote = (currentnote)=>{
-        ref.current.click();
+        editRef.current.click();
         setnote({id:currentnote._id, etitle:currentnote.title, edescription:currentnote.description, etag:currentnote.tag})
     }
 
     const handleClick = (e)=>{
         e.preventDefault(); // so that the page does not reloads
         editNote(note.id, note.etitle, note.edescription, note.etag)
-        refclose.current.click();
+        editRefclose.current.click();
     }
 
     const onChange = (e)=>{
         setnote({...note, [e.target.name]: e.target.value});
+    }
+
+    const viewClick = (currentnote)=>{
+        viewRef.current.click();
+        setnote({id:currentnote._id, etitle:currentnote.title, edescription:currentnote.description, etag:currentnote.tag})
     }
 
 
@@ -38,10 +45,12 @@ const Notes = () => {
         <>
         <AddNote />
 
-        <button type="button" ref={ref} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+        <button type="button" ref={editRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editModal">Launch demo modal</button>
 
-        <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog">
+        <button type="button" ref={viewRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#viewModal">Launch demo modal</button>
+
+        <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Edit note</h5>
@@ -77,17 +86,39 @@ const Notes = () => {
 
             </div>
             <div className="modal-footer">
-                <button ref={refclose} type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                <button ref={editRefclose} type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" className="btn btn-primary" onClick={handleClick}>Update this note</button>
             </div>
             </div>
         </div>
         </div>
 
+
+
+        <div className="modal fade" id="viewModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">{`${note.etitle} -${note.etag}`}</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div className="modal-body">
+                {note.edescription}
+            </div>
+            <div className="modal-footer">
+                <button type="button" ref={viewRefclose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
         <div className="row">
         <h2>Your notes</h2>
         {notes.map((note)=>{
-            return <NoteItem key = {note._id} updateNote={updateNote} note={note} />
+            return <NoteItem key = {note._id} updateNote={updateNote} viewClick={viewClick} note={note} />
         })}
         </div>
         </>

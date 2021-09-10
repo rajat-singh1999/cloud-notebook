@@ -22,11 +22,11 @@ const AddNote = () => {
             <h2>Add a note!</h2>
             <form>
             <div className="mb-3">
-                <label htmlFor="title" className="form-label">Tile</label>
+                <label htmlFor="title" className="form-label">Title (atleast 5 characters)</label>
                 <input type="text" name="title" className="form-control" id="title" aria-describedby="emailHelp" onChange={onChange} />
             </div>
             <div className="mb-3">
-                <label htmlFor="description" className="form-label">Description</label>
+                <label htmlFor="description" className="form-label">Description (atleast 5 characters)</label>
                 <textarea type="text" className="form-control" id="description my-box" name="description" rows="10" onChange={onChange}></textarea>
             </div>
             <div className="mb-3">

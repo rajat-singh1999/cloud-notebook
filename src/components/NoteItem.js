@@ -3,7 +3,7 @@ import noteContext from "../Context/notes/NotesContext"
 
 
 const NoteItem = (props) => {
-    const {note, updateNote} = props
+    const {note, updateNote, viewClick} = props
 
     const context = useContext(noteContext);
     const {deleteNote} = context;
@@ -17,6 +17,7 @@ const NoteItem = (props) => {
                 <p className="xard-text">Tag: {note.tag}</p>
                 <i className="fas fa-trash-alt mx-2" onClick={()=>{deleteNote(note._id)}}></i>
                 <i className="far fa-edit mx-2" onClick={()=>{updateNote(note)}}></i>
+                <i className="fas fa-eye mx-2" onClick={()=>{viewClick(note)}}></i>
             </div>
             </div>
         </div>
