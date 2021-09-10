@@ -50,7 +50,7 @@ const Notes = () => {
         <button type="button" ref={viewRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#viewModal">Launch demo modal</button>
 
         <div className="modal fade" id="editModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div className="modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Edit note</h5>
@@ -87,7 +87,7 @@ const Notes = () => {
             </div>
             <div className="modal-footer">
                 <button ref={editRefclose} type="button" className="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" className="btn btn-primary" onClick={handleClick}>Update this note</button>
+                <button disabled={note.etitle.length<1 || note.edescription.length<5} type="button" className="btn btn-primary" onClick={handleClick}>Update this note</button>
             </div>
             </div>
         </div>
@@ -106,7 +106,7 @@ const Notes = () => {
                 {note.edescription}
             </div>
             <div className="modal-footer">
-                <button type="button" ref={viewRefclose} className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" ref={viewRefclose} className="btn btn-danger" data-bs-dismiss="modal">Close</button>
             </div>
             </div>
         </div>
@@ -115,8 +115,9 @@ const Notes = () => {
 
 
 
-        <div className="row">
         <h2>Your notes</h2>
+        <div className="row container my-5">
+        {notes.length===0 && "No notes to display..."}
         {notes.map((note)=>{
             return <NoteItem key = {note._id} updateNote={updateNote} viewClick={viewClick} note={note} />
         })}

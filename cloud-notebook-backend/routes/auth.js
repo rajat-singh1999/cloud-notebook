@@ -59,8 +59,10 @@ router.post('/login', [
 ], async (req,res)=>{
     // If there are errors return errors else move forward
     const errors = validationResult(req);
+    let success=true;
     if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
+        success=false;
+        return res.status(400).json({success,errors: errors.array()});
     }
 
     const {email, password} = req.body;
@@ -68,12 +70,14 @@ router.post('/login', [
         let user = await User.findOne({email: email}); //in es6, this satement can be: User.findOne({email});
 
         if(!user){
-            return res.status(400).json({error: "Credentials are wrong!"})
+            success=false;
+            return res.status(400).json({success,error: "Credentials are wrong!"})
         }
 
         const passwordCompare = await bcrypt.compare(password, user.password);
         if(!passwordCompare){
-            return res.status(400).json({error: "Credentials are wrong!"})
+            success=false;
+            return res.status(400).json({success,error: "Credentials are wrong!"})
         }
 
         const payload = {
@@ -82,7 +86,8 @@ router.post('/login', [
             }
         }
         const authToken = jwt.sign(payload, JWT_SECRET)
-        res.json({authToken})
+        success=true;
+        res.json({success,authToken})
     }
     catch(error){
         console.error(error.message);

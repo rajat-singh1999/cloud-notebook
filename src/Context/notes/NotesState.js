@@ -31,8 +31,6 @@ const NoteState = (props)=>{
           body: JSON.stringify({title, description, tag})
         });
          
-    
-        console.log("Adding a new note")
         getNotes();
         // const note = {
         //   "_id": "61322f119553781a8ca8d0e08",
@@ -47,7 +45,6 @@ const NoteState = (props)=>{
       }
     
       const deleteNote = async (noteID)=>{
-        console.log(`Deleting note with id: ${noteID}`)
         // eslint-disable-next-line
         const response = await fetch(`${host}/api/notes/deletenote/${noteID}`, {
           method: 'DELETE',

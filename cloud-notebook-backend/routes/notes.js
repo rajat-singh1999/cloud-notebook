@@ -21,7 +21,7 @@ router.get('/fetchallnotes', fetchuser, async (req, res)=>{
 //Add a new note using POST. Login required
 router.post('/createnote', fetchuser, [
     body('title', 'Enter a valid title').isLength({min: 1}),
-    body('description', 'Enter a valid description').isLength({min: 1})
+    body('description', 'Enter a valid description').isLength({min: 5})
 ], async (req, res)=>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){

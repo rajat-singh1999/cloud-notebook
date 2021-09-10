@@ -20,7 +20,7 @@ const Navbar = () => {
                     <Link className={`nav-link ${location.pathname==="/"?"active":""}`} aria-current="page" to="/">Home</Link>
                     </li>
                     <li className="nav-item">
-                    <Link className={`nav-link ${location.pathname==="/"?"":"active"}`} to="/about">About</Link>
+                    <Link className={`nav-link ${location.pathname==="/about"?"active":""}`} to="/about">About</Link>
                     </li>
                     {/* <li className="nav-item">
                     <Link className="nav-link" to="/">Pricing</Link>
@@ -28,6 +28,8 @@ const Navbar = () => {
                     
                 </ul>
                 </div>
+                <Link className="btn btn-primary mx-2" to="/login" role="button" href="/">Log In</Link>
+                <Link className="btn btn-primary mx-2" to="/signup" role="button" href="/">Sign Up</Link>
             </div>
             </nav>
         </>
