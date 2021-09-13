@@ -2,9 +2,11 @@ import React, {useContext, useEffect, useRef, useState} from 'react'
 import noteContext from "../Context/notes/NotesContext"
 import NoteItem from './NoteItem';
 import AddNote from './AddNote'
+import { useHistory } from 'react-router';
 
 
-const Notes = () => {
+const Notes = (props) => {
+    let history = useHistory();
     const editRef = useRef(null);
     const editRefclose = useRef(null);
     const viewRef = useRef(null);
@@ -15,8 +17,15 @@ const Notes = () => {
     const {notes, getNotes, editNote} = context;
     const [note, setnote] = useState({id:"", etitle: "", edescription: "", etag: ""})
 
+    // this is triggerd when the application is started
+    // use case is similar to "componentDidMount()" in the class based architecture
     useEffect(() => {
-       getNotes();
+        if(localStorage.getItem('token')===''){
+            history.push("/login")
+        }
+        else{
+            getNotes();
+        }
        // eslint-disable-next-line
     }, [])
 
@@ -29,6 +38,7 @@ const Notes = () => {
         e.preventDefault(); // so that the page does not reloads
         editNote(note.id, note.etitle, note.edescription, note.etag)
         editRefclose.current.click();
+        props.showAlert(`Note updated!`, "success");
     }
 
     const onChange = (e)=>{
@@ -43,7 +53,7 @@ const Notes = () => {
 
     return (
         <>
-        <AddNote />
+        <AddNote showAlert={props.showAlert}/>
 
         <button type="button" ref={editRef} className="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#editModal">Launch demo modal</button>
 
@@ -117,9 +127,9 @@ const Notes = () => {
 
         <h2>Your notes</h2>
         <div className="row container my-5">
-        {notes.length===0 && "No notes to display..."}
-        {notes.map((note)=>{
-            return <NoteItem key = {note._id} updateNote={updateNote} viewClick={viewClick} note={note} />
+        {notes && notes.length===0 && "No notes to display..."}
+        {notes && notes.map((note)=>{
+            return <NoteItem key = {note._id} showAlert={props.showAlert} updateNote={updateNote} viewClick={viewClick} note={note} />
         })}
         </div>
         </>

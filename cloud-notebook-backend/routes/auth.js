@@ -16,14 +16,18 @@ router.post('/createuser',[
     ] , async (req, res)=>{
     // if there are errors return bad requests and then the errors
     const errors = validationResult(req);
+    let success=true;
+
     if(!errors.isEmpty()){
-        return res.status(400).json({errors: errors.array()});
+        success=false;
+        return res.status(400).json({success:success, errors: errors.array()});
     }
     // check whether the user with same email exists already
     try{
         let user = await User.findOne({email: req.body.email})
         if(user){
-            return res.status(400).json({error: "Sorry, a user with this email already exists."})
+            success=false;
+            return res.status(400).json({success:false, error: "Sorry, a user with this email already exists."})
         }
         // generating salt and using it hash the password
         const salt = await bcrypt.genSalt(10);
@@ -39,7 +43,8 @@ router.post('/createuser',[
         const authToken = jwt.sign(data, JWT_SECRET);
         
         // sending user a jwt token is a good practice. It is done to further secure the data between client and server.
-        res.json({authToken})
+        success=true;
+        res.json({success, authToken})
     }
     // the block below catches errors that where not handled. Prevents the app from crashing in terminal. Just sends a message.
     catch(error){

@@ -1,10 +1,11 @@
 import React from 'react'
 import {
-    Link, useLocation
+    Link, useLocation, useHistory
 } from "react-router-dom";
 
 const Navbar = () => {
     let location = useLocation();
+    let history = useHistory();
     
     return (
         <>
@@ -28,8 +29,7 @@ const Navbar = () => {
                     
                 </ul>
                 </div>
-                <Link className="btn btn-primary mx-2" to="/login" role="button" href="/">Log In</Link>
-                <Link className="btn btn-primary mx-2" to="/signup" role="button" href="/">Sign Up</Link>
+                {localStorage.getItem('token')===""?<><Link className="btn btn-primary mx-2" to="/login" role="button" href="/">Log In</Link><Link className="btn btn-primary mx-2" to="/signup" role="button" href="/">Sign Up</Link></>:<button className="btn btn-danger" onClick={()=>{localStorage.setItem('token', '');history.push("/login")}}>Logout</button>}
             </div>
             </nav>
         </>
